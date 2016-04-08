@@ -14,14 +14,14 @@ String line;
 String PinIdString;
 String IntervalString;
 
-unsigned long previousMillis1 = 0;
-unsigned long previousMillis2 = 0;
+unsigned long previousMicros1 = 0;
+unsigned long previousMicros2 = 0;
 unsigned long previousMillis3 = 0;
 unsigned long previousMillis4 = 0;
 unsigned long previousMillis5 = 0;
 
-unsigned long interval1 = 1000;
-unsigned long interval2 = 500;
+unsigned long interval1 = 1000000;
+unsigned long interval2 = 500000;
 unsigned long interval3 = 333;
 unsigned long interval4 = 250;
 unsigned long interval5 = 200;
@@ -37,13 +37,11 @@ void setup() {
 
 void SerialEvent() {
   int i = 0;
-  if (Serial.available() > 0) {
-    line = Serial.readString();
-    PinIdString = line.substring(0, 2);
-    IntervalString = line.substring(3, line.length());
-    Serial.println("PinID: " + PinIdString);
-    Serial.println("Interval: " + IntervalString);
-  }
+  line = Serial.readString();
+  PinIdString = line.substring(0, 2);
+  IntervalString = line.substring(3, line.length());
+  Serial.println("PinID: " + PinIdString);
+  Serial.println("Interval: " + IntervalString);
 }
 
 void loop() {
@@ -86,16 +84,16 @@ int ChangeInterval() {
 }
 
 void ChangeStates(unsigned long currentMillis, unsigned long currentMicros) {
-  if (currentMillis - previousMillis1 >= interval1) {
-    previousMillis1 = currentMillis;
+  if (currentMicros - previousMicros1 >= interval1) {
+    previousMicros1 = currentMicros;
     if (State1 == LOW) {
       State1 = HIGH;
     } else {
       State1 = LOW;
     }
   }
-  if (currentMillis - previousMillis2 >= interval2) {
-    previousMillis2 = currentMillis;
+  if (currentMicros - previousMicros2 >= interval2) {
+    previousMicros2 = currentMicros;
     if (State2 == LOW) {
       State2 = HIGH;
     }
